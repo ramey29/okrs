@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // import Success from './components/conversion/Success';
-import ConversionHistory from './components/ConversionHistory';
+import OkrsListing from './components/OkrsListing';
 // import GlobalStorage from './common/GlobalStorage';
 // import * as Constants from './common/Constants';
 
@@ -12,7 +12,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      components: {"conversion-history": ConversionHistory},
+      components: {"okr-history": OkrsListing},
       beforeEnter: (to, from, next) => { },
     },
     

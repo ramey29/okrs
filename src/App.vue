@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AppHeader></AppHeader>
-    <conversionHistory></conversionHistory>
+    <okrsListing></okrsListing>
     <loader v-if="showLoader"></loader>
     <error-warning-modal v-if="showErrorAndWarning" :warningFor="warningFor"></error-warning-modal>
   </div>
@@ -10,7 +10,7 @@
 <script>
 import Loader from './components/helpers/Loader';
 import AppHeader from './components/AppHeader';
-import conversionHistory from './components/ConversionHistory';
+import okrsListing from './components/OkrsListing';
 import ErrorWarningModal from './components/helpers/ErrorAndWarningModal';
 import { subscribeEvent } from './common/Observer';
 import * as Constants from './common/Constants';
@@ -50,7 +50,7 @@ export default {
   components: {
     Loader,
     AppHeader,
-    conversionHistory,
+    okrsListing,
     ErrorWarningModal,
   },
   created() {

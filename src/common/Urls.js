@@ -9,12 +9,12 @@ const BASE_URL = {
   PROD: ''
 };
 
-const JOBLISTINGSERVICE = `${BASE_URL[CURRENT_ENV]}`;
+// const OKRCENTRAL = `${BASE_URL[CURRENT_ENV]}`; (for dynamic calling)
+const OKRCENTRAL = "https://okrcentral.github.io"
 
 
 
-export const getJoblistingAPI = () => ({
-  GET_PEOPLE: `${JOBLISTINGSERVICE}/json/people.json`
+export const getOKRsAPI = () => ({
+  GET_OKRS: `${OKRCENTRAL}/sample-okrs/db.json`
 });
-
 
