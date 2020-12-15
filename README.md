@@ -36,8 +36,9 @@ THINGS done
 
 4 filter the category and listed in cansole , had planned to use it for auto complete in search
 
+5 filter out sub category using the id and parent_object_id an adding those data to main category
+
 Things not done
 
-1 dint filter out sub category using the id and parent_object_id an adding those data to main category
-
-2 complete accordian
+1 complete accordian css
+2 search with filter dropdown and autocomplete

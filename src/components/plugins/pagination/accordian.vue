@@ -1,6 +1,6 @@
 <template>
     <div>
-       <button class="accordion">{{number}}. {{ headingText }}</button>
+       <button @click="toggleAccordian($event)" class="accordion">{{number}}. {{ headingText }}</button>
         <div class="panel">
             <p><ul>
                 <li v-for="list in ulList" :key="list">
@@ -38,22 +38,26 @@ export default {
     methods: {
         init() {
             let acc = document.getElementsByClassName("accordion");
-            for (let i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
+            acc[0].classList.add("active");
+            acc[0].nextElementSibling.style.maxHeight = "150px";
+        },
+
+        toggleAccordian(e){
+            e.target.classList.toggle("active");
+             let panel = e.target.nextElementSibling;
                 if (panel.style.maxHeight) {
                 panel.style.maxHeight = null;
                 } else {
                 panel.style.maxHeight = panel.scrollHeight + "px";
                 } 
-            });
-}
         }
     },
     created() {
-        this.init()
        
+    },
+
+    mounted(){
+         this.init();
     }
 }
 </script>

@@ -23,17 +23,16 @@
         <div class="okrListContainer">
             <div v-if="okrList.length > 0">
                 <h3> TOTAL OKRS : {{totalCount}} </h3>
+                <h4 >Categories:
+                    <span v-for="filter in filterList" :key="filter">{{ filter }}, </span>
+                </h4>
             </div>
             <div v-if="okrList.length == 0"><h2>NO OKRs FOUND</h2></div>
 
-        
-            
-            <div class="okrCard clearfix">  
-
-                <div v-for="(mokrList, index) in mainOkrList" :key="index" :id="okrList.name" class="tabcontent" >
-                   <Accordian :number="index+1" :headingText="mokrList.title" :ulList="mokrList.others"></Accordian>
+            <div class="okrCard">  
+                <div v-for="(mokrList, index) in mainOkrList" :key="mokrList.id" :id="okrList.id" class="tabcontent" >
+                   <Accordian :number="index+1" :headingText="mokrList.title" :ulList="mokrList.children"></Accordian>
                 </div>
-              
             </div>
         </div>
 
@@ -75,35 +74,47 @@ export default {
             this.searchOKR = '';
             this.Emptysearch();
         },
-     
 
         async fetchTransactions() {
-
             publishEvent(Constant.SHOW_LOADER);
-            
             try{
                 let response = await getOkrs();
                 this.okrList = response.data.data;
-                this.totalCount = this.okrList.length;
-                
+                this.okrListing();
                 publishEvent(Constant.HIDE_LOADER);
-               
-                for (const [key, value] of Object.entries(this.okrList)) {
-                    if(!this.filterList.includes(value.category)){
-                        this.filterList.push(value.category);
-                    }
-                    value.others = ['a', "b" ,'c','d']; // remove this and write a method to add sub category
-                }
-                
-                console.log("search filter by category",this.filterList);
-                this.mainOkrList = this.okrList.filter(okr => okr.parent_objective_id === '');
-
+                this.filterListing();
             }
             catch(e){
                 console.log(e);
             }
-           
             localStorage.setItem('okrList', JSON.stringify(this.okrList));
+        },
+
+        okrListing(){
+            this.mainOkrList = this.okrList.reduce((acc, cur) => {
+                    if(cur.parent_objective_id === "") {
+                        cur.children = [];
+                        acc.push(cur);
+                        
+                    } else {
+                        parent = acc.find(item => item.id === cur.parent_objective_id);
+                        if(parent){
+                            parent.children.push(cur.title);
+                        }
+                        
+                    }
+                    return acc;
+                },[]);
+                this.totalCount = this.mainOkrList.length;
+                localStorage.setItem('mainOkrList', JSON.stringify(this.mainOkrList));
+        },
+
+        filterListing(){
+                for (const [key, value] of Object.entries(this.mainOkrList)) {
+                    if(!this.filterList.includes(value.category)){
+                        this.filterList.push(value.category);
+                    }
+                }
         },
 
         search(text) {
